@@ -35,6 +35,13 @@ public class JukeBox {
         currentCredit += 1;
     }
     
+    public void useCredit(){
+        currentCredit -= 1;
+        if(currentCredit <= 0){
+            currentCredit = 0;
+        }
+    }
+    
     //prompts use to put in credit to play a song
     public void turnOn(){
         Scanner reader = new Scanner(System.in);
@@ -71,16 +78,47 @@ public class JukeBox {
         boolean songChoice = false;
         Scanner reader = new Scanner(System.in);
       
+
+
+      
         for(int i = 0; i < songBank.size() ; i++){
+        if(getCredits() == 0){
+            System.out.println("Please put in another credit");
+            turnOn();
+            break;
+        }
         System.out.println("Album: " + songBank.get(i).getName() + 
                         " Arist " + songBank.get(i).getArtist());
-        String input = reader.nextLine();
         System.out.println("Press C to choose this album");
         System.out.println("Press N to go to the next album");
+        String input = reader.nextLine();
             if( input.length() == 0){
                 i = i-1;
             }else if(input.charAt(0) == 'c' || input.charAt(0) == 'C'){
-                //songSelection();
+                for(int j = 0; j < songBank.get(i).getLength();j++){
+                    System.out.println("Album: " + songBank.get(i).getName() + 
+                    " Song " + songBank.get(i).getSong(j).getName());
+                    System.out.println("Press C to choose this song");
+                    System.out.println("Press N to go to the next song");
+                    System.out.println("Press Q to go to the album selection");                     
+                    String input2 = reader.nextLine();
+                    if(input2.length() == 0){
+                        j = j-1;
+                    }else if(input2.charAt(0) =='c' || input2.charAt(0) =='C'){
+                        songBank.get(i).getSong(j).playSong();
+                        useCredit();
+                        break;
+                    }else if(input2.charAt(0) =='n' || input2.charAt(0) =='N'){
+                        if(j == songBank.get(i).getLength()-1){
+                            j = 0-1;
+                      }
+                    }else if(input2.charAt(0) =='q' || input2.charAt(0) =='Q'){
+                            break;
+                    }else {
+                        j = j-1;
+                    }
+
+                }
             }else if(input.charAt(0) =='N' || input.charAt(0) == 'n'){
                 if(i == songBank.size()-1){
                     i = 0-1;

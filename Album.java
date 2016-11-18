@@ -18,10 +18,21 @@ public class Album implements Comparable<Album> {
         return this.name;
     }
     
+    public int getLength(){
+        return Album.size();
+    }
+    
     //get Artist name
     public String getArtist(){
         return this.artist;
     }
+    
+    //returns a song
+    public Song getSong(int index){
+        Song choice = Album.get(index);
+        return choice;
+    }
+    
     //add a song to the album
     public void addSong(Song song){
         if(Album.contains(song)){
